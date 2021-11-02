@@ -21,15 +21,15 @@ export const increaseQuantityInCart = (cartItems, id) => {
     const exists = cartItems.find(item => item.id === id);
     if (!exists) return cartItems;
 
-    return cartItems.map(item => (item.id == id ? { ...item, quantity: item.quantity + 1 } : item));
+    return cartItems.map(item => (item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
 }
 
 export const decreaseQuantityInCart = (cartItems, id) => {
     const exists = cartItems.find(item => item.id === id);
     if (!exists) return cartItems;
 
-    if (exists.quantity == 1) {
+    if (exists.quantity === 1) {
         return cartItems.filter(item => item.id !== id);
     }
-    return cartItems.map(item => (item.id == id ? { ...item, quantity: item.quantity - 1 } : item));
+    return cartItems.map(item => (item.id === id ? { ...item, quantity: item.quantity - 1 } : item));
 }
