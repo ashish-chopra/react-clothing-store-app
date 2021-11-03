@@ -10,6 +10,9 @@ import { setCurrentUser } from './redux/user/user.actions';
 import { connect } from 'react-redux';
 import CheckoutPage from './pages/checkout/checkout.component';
 
+import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
+import { createStructuredSelector } from 'reselect';
+
 class App extends React.Component {
   constructor() {
     super();
@@ -37,7 +40,9 @@ class App extends React.Component {
 
       setCurrentUser(null);
 
-    })
+    });
+
+    // addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})));
   }
 
   componentWillUnmount() {
@@ -61,4 +66,6 @@ class App extends React.Component {
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 })
+
+
 export default connect(null, mapDispatchToProps)(App);

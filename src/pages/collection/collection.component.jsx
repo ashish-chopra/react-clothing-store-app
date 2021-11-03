@@ -6,7 +6,7 @@ import './collection.styles.scss';
 
 
 const CollectionPage = ({ match, collection }) => {
-    const {title, items} = collection;
+    const {title, items} = collection || { title: '', items: []} ;
     return (
     <div className="collection-page">
         <div className="title">{title}</div>

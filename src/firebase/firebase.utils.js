@@ -20,7 +20,7 @@ export const firestore = firebase.firestore();
 
 
 const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account'});
+provider.setCustomParameters({ prompt: 'select_account' });
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
 
 export const createUserProfileDocument = async (userAuth, additionalData) => {
@@ -29,7 +29,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     const snapshot = await userRef.get();
 
     if (!snapshot.exists) {
-        const {displayName, email } = userAuth;
+        const { displayName, email } = userAuth;
         const createdAt = new Date();
 
         try {
@@ -45,6 +45,38 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     }
 
     return userRef;
+};
+
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+
+    const batch = firestore.batch();
+
+    objectsToAdd.forEach(obj => {
+        const newDocRef = collectionRef.doc();
+        batch.set(newDocRef, obj);
+    });
+    return await batch.commit();
+    // console.log(collectionRef);
+
+}
+
+export const convertCollectionSnapshotToMap = (collections) => {
+    console.log(collections);
+    const transformedCollection = collections.docs.map(doc => {
+        console.log(doc);
+        const { title, items } = doc.data();
+        return {
+            routeName: encodeURI(title.toLowerCase()),
+            id: doc.id,
+            items,
+            title
+        }
+    });
+    return transformedCollection.reduce((accumulated, collection) => {
+        accumulated[collection.title.toLowerCase()] = collection;
+        return accumulated;
+    }, {});
 };
 
 
